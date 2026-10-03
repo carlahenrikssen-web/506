@@ -1,0 +1,22 @@
+name: build-apk
+on: [push, workflow_dispatch]
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: 'temurin', java-version: '17' }
+      - name: Fetch Android build-tools, platform and R8
+        run: |
+          mkdir -p "$HOME/sdk" && cd "$HOME/sdk"
+          curl -sL -o bt.zip https://dl.google.com/android/repository/build-tools_r34-linux.zip
+          unzip -q bt.zip && mv android-14 build-tools
+          curl -sL -o platform.zip https://dl.google.com/android/repository/platform-34-ext7_r03.zip
+          unzip -q platform.zip && mv android-34 platform
+          curl -sL -o r8.jar https://dl.google.com/android/maven2/com/android/tools/r8/8.5.35/r8-8.5.35.jar
+      - name: Build signed APK
+        env: { SDK: '${{ github.workspace }}/../sdk' }
+        run: SDK="$HOME/sdk" bash build.sh
+      - uses: actions/upload-artifact@v4
+        with: { name: MtkFrpTool-apk, path: MtkFrpTool-v2.3.apk }

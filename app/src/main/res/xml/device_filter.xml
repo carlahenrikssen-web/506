@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- MediaTek preloader / BROM / DA VCOM -->
+    <usb-device vendor-id="3725"/>
+    <!-- Standard ADB interface (class 255 subclass 66 protocol 1) -->
+    <usb-device class="255" subclass="66" protocol="1"/>
+    <!-- Google / generic adb devices -->
+    <usb-device vendor-id="6353"/>
+    <usb-device vendor-id="5947"/>
+    <usb-device vendor-id="5118"/>
+</resources>
